@@ -1,4 +1,10 @@
-#include "json.h"
+#pragma once
+#ifndef TUTORIAL_H
+#define TUTORIAL_H
 
-void load_tutorial_messages(JsonObject &jo);
+class JsonObject;
+
+void load_tutorial_messages( JsonObject &jo );
 void clear_tutorial_messages();
+
+#endif

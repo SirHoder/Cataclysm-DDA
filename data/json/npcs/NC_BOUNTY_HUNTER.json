@@ -1,16 +1,7 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_pants_male",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_pants_female",
+    "id" : "NC_BOUNTY_HUNTER_pants",
     "items":[
       ["jeans", 20],
       ["pants", 20],
@@ -32,10 +23,18 @@
       ["null", 20],
       ["hoodie", 20],
       ["jacket_light", 20],
+      ["jacket_windbreaker", 10],
       ["jacket_leather", 80],
       ["trenchcoat", 20],
-      ["jacket_jean", 20],
-      ["kevlar", 5]
+      ["jacket_jean", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_BOUNTY_HUNTER_vest",
+    "items":[
+      ["null", 20],
+      ["kevlar", 80],
+      ["chestrig", 40]
     ]
   },{
     "type" : "item_group",
@@ -48,7 +47,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_extra",
+    "id" : "NC_BOUNTY_HUNTER_storage",
     "items":[
       ["null", 20],
       ["backpack", 40],

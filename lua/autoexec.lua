@@ -1,69 +1,14 @@
 --dofile("./class_definitions.lua")
 
-function generate_metatable(name)
-    return {
-        __index = function(userdata, key)
-            -- iterate over the class inheritance hierarchy
-            local current_name = name
-            while current_name do
-                local class = classes[current_name]
-                local attribute = class.attributes[key]
-                if attribute then
-                    return game[name.."_get_"..key](userdata)
-                elseif class.functions[key] then
-                    return game[name.."_"..key]
-                else
-                    current_name = class.parent
-                end
-            end
-            error("Unknown "..name.." attribute: "..key)
-        end,
+package.path = package.path .. ";./lua/?.lua" --Windows/Linux
+package.path = package.path .. ";/usr/share/cataclysm-dda/lua/?.lua" --Linux(via make install)
+package.path = package.path .. ";/storage/emulated/0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android
+package.path = package.path .. ";/storage/sdcard/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card)
+package.path = package.path .. ";/storage/sdcard0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 0)
+package.path = package.path .. ";/storage/sdcard1/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 1)
 
-        __newindex = function(userdata, key, value)
-            -- iterate over the class inheritance hierarchy
-            local current_name = name
-            while current_name do
-                local class = classes[current_name]
-                local attribute = class.attributes[key]
-                if attribute then
-                    if not attribute.writable then
-                        error("Attempting to set read-only item attribute: "..key)
-                    end
-
-                    -- convert our generic type from the wrapper definition to an
-                    -- actual lua type
-                    local attribute_type = attribute.type
-                    if attribute_type == "int" then
-                        attribute_type = "number"
-                    elseif attribute_type == "bool" then
-                        attribute_type = "boolean"
-                    elseif attribute_type == "string" then
-                        attribute_type = "string"
-                    else
-                        -- otherwise it's probably a wrapped class,
-                        -- so we expect a userdata
-                        attribute_type = "userdata"
-                    end
-
-                    if type(value) ~= attribute_type then
-                        error("Invalid value for "..name.."."..key..": "..tostring(value), 2)
-                    end
-
-                    return game[name.."_set_"..key](userdata, value)
-                else
-                    current_name = class.parent
-                end
-            end
-            error("Unknown "..name.." attribute: "..key)
-        end,
-
-        __gc = game.__gc
-    }
-end
-
-for key, _ in pairs(classes) do
-    _G[key.."_metatable"] = generate_metatable(key)
-end
+log = require("log")
+log.init("./config/lua-log.log")
 
 outdated_metatable = {
     __index = function(userdata, key)
@@ -78,10 +23,71 @@ outdated_metatable = {
 -- table containing our mods
 mods = { }
 
-function mod_callback(callback_name)
+function mod_callback(callback_name, ...)
+    rval = nil
     for modname, mod_instance in pairs(mods) do
         if type(mod_instance[callback_name]) == "function" then
-            mod_instance[callback_name]()
+            rval = mod_instance[callback_name](...)
         end
+    end
+    return rval
+end
+
+function resolve_name(name)
+    local a = _G
+    for key in string.gmatch(name, "([^%.]+)(%.?)") do
+        if a[key] then
+            a = a[key]
+        else
+            return nil
+        end
+    end
+    return a
+end
+
+function function_exists(name)
+    return type(resolve_name(name)) == 'function'
+end
+
+function table_length(name)
+  local length = 0
+  if (name ~= nil) then
+      for _ in pairs(name) do
+        length = length + 1
+      end
+  end
+  return length
+end
+
+-- Constructs `time_duration` with given `int` value (which is number of turns). 
+function TURNS(turns)
+    if( function_exists( "game.get_time_duration" ) ) then
+        return game.get_time_duration( turns )
+    else
+        return nil
+    end
+end
+
+function MINUTES(turns)
+    if( function_exists( "game.get_time_duration" ) ) then
+        return game.get_time_duration( turns * 10 )
+    else
+        return nil
+    end
+end
+
+function HOURS(turns)
+    if( function_exists( "game.get_time_duration" ) ) then
+        return game.get_time_duration( turns * 10 * 60 )
+    else
+        return nil
+    end
+end
+
+function DAYS(turns)
+    if( function_exists( "game.get_time_duration" ) ) then
+        return game.get_time_duration( turns * 10 * 60 * 24 )
+    else
+        return nil
     end
 end

@@ -1,14 +1,7 @@
 [
   {
     "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_male",
-    "items":[
-      ["tshirt", 20],
-      ["tank_top", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_female",
+    "id" : "NC_HUNTER_shirt",
     "items":[
       ["tshirt", 20],
       ["tank_top", 20]
@@ -30,7 +23,9 @@
       ["jacket_light", 20],
       ["jacket_leather", 20],
       ["trenchcoat", 20],
-      ["jacket_jean", 20]
+      ["jacket_jean", 20],
+      ["jacket_flannel", 20],
+      ["jacket_windbreaker", 10]
     ]
   },{
     "type" : "item_group",
@@ -38,7 +33,8 @@
     "items":[
       ["null", 40],
       ["hat_ball", 40],
-      ["hat_hunting", 40]
+      ["hat_hunting", 40],
+      ["hat_boonie", 20]
     ]
   },{
     "type" : "item_group",
@@ -71,7 +67,8 @@
       ["browning_blr", 10],
       ["remington_700", 10],
       ["savage_111f", 5],
-      ["marlin_9a", 25]
+      ["marlin_9a", 25],
+      ["m1903", 5]
     ]
   },{
     "type" : "item_group",
