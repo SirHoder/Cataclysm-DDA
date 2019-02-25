@@ -170,3 +170,9 @@ Xcode/
 
 # gdb
 .gdb_history
+/gfx/HoderTileset/tile_config - Copy.json
+/gfx/HoderTileset/hodertiles_oversized.xcf
+/gfx/HoderTileset/hodertiles_fallback_b.xcf
+/gfx/HoderTileset/chesthole_tile_config.json
+/gfx/HoderTileset/hodertiles.xcf
+/gfx/HoderTileset/hodertiles_fallback.xcf
